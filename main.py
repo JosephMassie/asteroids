@@ -25,19 +25,26 @@ def main():
     AsteroidField.containers = (updateables)
 
     AsteroidField()
-    Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-    while True:
+    running = True
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                running = False
 
         for obj in updateables:
             obj.update(dt)
         
+        
         for ast in asteroids:
+            if player.is_colliding(ast):
+                player.kill()
+                print("you died")
+                running = False
+
             for bullet in shots:
-                hit = pygame.sprite.collide_circle(ast, bullet)
+                hit = ast.is_colliding(bullet)
                 if hit:
                     print(f"hit @ {bullet.position}")
                     ast.kill()
@@ -49,6 +56,9 @@ def main():
 
         pygame.display.flip()
         dt = clock.tick(MAX_FPS) / 1000
+    
+    pygame.quit()
+    quit()
 
 if __name__ == "__main__":
     main()
