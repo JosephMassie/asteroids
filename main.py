@@ -47,7 +47,7 @@ def main():
                 hit = ast.is_colliding(bullet)
                 if hit:
                     print(f"hit @ {bullet.position}")
-                    ast.kill()
+                    ast.split()
                     bullet.kill()
 
         screen.fill((20, 20, 20))
